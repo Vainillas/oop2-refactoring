@@ -1,7 +1,7 @@
 package ar.unrn.eje1;
 
 public class Alquiler {
-	private Libro libro;
+	private Libro libro; // Eliminé el objeto copia
 	private int diasAlquilados;
 
 	public Alquiler(Libro libro, int diasAlquilados) {
@@ -15,9 +15,5 @@ public class Alquiler {
 
 	public int calcularPuntosAlquiler() {
 		return libro.calcularPuntosAlquiler(diasAlquilados);
-	}
-
-	public Libro libro() {
-		return this.libro;
 	}
 }
