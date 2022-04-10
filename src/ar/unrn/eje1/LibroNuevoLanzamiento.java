@@ -1,6 +1,7 @@
 package ar.unrn.eje1;
 
 public class LibroNuevoLanzamiento extends Libro {
+	private static double MULTIPLICADOR = 3; // Numeros Magicos
 	private String nombre;
 
 	public LibroNuevoLanzamiento(String nombre) {
@@ -12,7 +13,7 @@ public class LibroNuevoLanzamiento extends Libro {
 	}
 
 	public double calcularDeuda(int diasAlquilados) {
-		return diasAlquilados * 3;
+		return diasAlquilados * MULTIPLICADOR;
 	}
 
 	public int calcularPuntosAlquiler(int diasAlquilados) {

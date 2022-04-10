@@ -1,6 +1,6 @@
 package ar.unrn.eje1;
 
-public abstract class Libro {
+public abstract class Libro { // Depender de abstracciones
 	private String nombre;
 
 	public Libro(String nombre) {

@@ -1,6 +1,9 @@
 package ar.unrn.eje1;
 
 public class LibroInfantil extends Libro {
+	private static double MULTIPLICADOR = 1.5; // Numeros Magicos
+	private static double PRECIO = 1.5;
+	private static int DIASAUMENTODEUDA = 3;
 	private String nombre;
 
 	public LibroInfantil(String nombre) {
@@ -12,9 +15,9 @@ public class LibroInfantil extends Libro {
 	}
 
 	public double calcularDeuda(int diasAlquilados) {
-		double monto = 1.5;
-		if (diasAlquilados > 3)
-			monto += (diasAlquilados - 3) * 1.5;
+		double monto = PRECIO;
+		if (diasAlquilados > DIASAUMENTODEUDA)
+			monto += (diasAlquilados - DIASAUMENTODEUDA) * MULTIPLICADOR;
 		return monto;
 	}
 

@@ -3,13 +3,13 @@ package ar.unrn.eje1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente {
+public class Cliente { // Regla 7
 	private Alquileres alquileres;
 	private String name;
 
 	public Cliente(String nombre) {
 		this.name = nombre;
-		this.alquileres = new Alquileres();
+		this.alquileres = new Alquileres(); // Regla 4
 	}
 
 	class Alquileres {
@@ -28,7 +28,7 @@ public class Cliente {
 		}
 	}
 
-	public double montoDeuda() {
+	public double montoDeuda() { // Separo los metodos
 		double total = 0;
 		for (Alquiler a : alquileres.alquileres()) {
 			total += a.totalDeuda();
@@ -37,7 +37,7 @@ public class Cliente {
 
 	}
 
-	public int puntosObtenidos() {
+	public int puntosObtenidos() { // Separo metodos
 		int puntos = 0;
 		for (Alquiler a : alquileres.alquileres()) {
 			puntos += a.calcularPuntosAlquiler();
@@ -45,7 +45,7 @@ public class Cliente {
 		return puntos;
 	}
 
-	public void alquilar(Libro l, int diasAlquilados) {
+	public void alquilar(Libro l, int diasAlquilados) { // Tell don't ask
 		Alquiler alquiler = new Alquiler(l, diasAlquilados);
 		this.alquileres.añadir(alquiler);
 	}
