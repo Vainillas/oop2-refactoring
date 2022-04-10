@@ -1,19 +1,23 @@
 package ar.unrn.eje1;
 
 public class Alquiler {
-  private CopiaLibro copia;
-  private int diasAlquilados;
+	private Libro libro;
+	private int diasAlquilados;
 
-  public Alquiler(CopiaLibro copia, int diasAlquilados) {
-    this.copia = copia;
-    this.diasAlquilados = diasAlquilados;
-  }
+	public Alquiler(Libro libro, int diasAlquilados) {
+		this.libro = libro;
+		this.diasAlquilados = diasAlquilados;
+	}
 
-  public int diasAlquilados() {
-    return this.diasAlquilados;
-  }
+	public double totalDeuda() {
+		return libro.calcularDeuda(diasAlquilados);
+	}
 
-  public CopiaLibro copia() {
-    return this.copia;
-  }
+	public int calcularPuntosAlquiler() {
+		return libro.calcularPuntosAlquiler(diasAlquilados);
+	}
+
+	public Libro libro() {
+		return this.libro;
+	}
 }

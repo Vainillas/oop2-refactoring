@@ -1,22 +1,20 @@
 package ar.unrn.eje1;
 
-public class Libro {
-  public static final int INFANTILES = 2;
-  public static final int REGULARES = 0;
-  public static final int NUEVO_LANZAMIENTO = 1;
-  private String nombre;
-  private int codigoPrecio;
+public abstract class Libro {
+	private String nombre;
 
-  public Libro(String nombre, int priceCode) {
-    this.nombre = nombre;
-    this.codigoPrecio = priceCode;
-  }
+	public Libro(String nombre) {
+		this.nombre = nombre;
+	}
 
-  public int codigoPrecio() {
-    return codigoPrecio;
-  }
+	public String nombre() {
+		return nombre;
+	}
 
-  public String nombre() {
-    return nombre;
-  }
+	public abstract double calcularDeuda(int diasAlquilados);
+
+	public int calcularPuntosAlquiler(int diasAlquilados) {
+		return 1;
+	}
+
 }

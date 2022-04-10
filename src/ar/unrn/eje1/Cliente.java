@@ -4,50 +4,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente {
-  private List<Alquiler> alquileres = new ArrayList<Alquiler>();
-  private String name;
+	private Alquileres alquileres;
+	private String name;
 
-  public Cliente(String nombre) {
-    this.name = nombre;
-  }
+	public Cliente(String nombre) {
+		this.name = nombre;
+		this.alquileres = new Alquileres();
+	}
 
-  public Object[] calcularDeudaYPuntosObtenidos() {
-    Object[] resultado = new Object[2];
-    double total = 0;
-    int puntosAlquilerFrecuente = 0;
-    for (Alquiler alquiler : alquileres) {
-      double monto = 0;
-// determine amounts for each line
-      switch (alquiler.copia().libro().codigoPrecio()) {
-      case Libro.REGULARES:
-        monto += 2;
-        if (alquiler.diasAlquilados() > 2)
-          monto += (alquiler.diasAlquilados() - 2) * 1.5;
-        break;
-      case Libro.NUEVO_LANZAMIENTO:
-        monto += alquiler.diasAlquilados() * 3;
-        break;
-      case Libro.INFANTILES:
-        monto += 1.5;
-        if (alquiler.diasAlquilados() > 3)
-          monto += (alquiler.diasAlquilados() - 3) * 1.5;
-        break;
-      }
-      total += monto;
-      // sumo puntos por alquiler
-      puntosAlquilerFrecuente++;
-      // bonus por dos dÃ­as de alquiler de un nuevo lanzamiento
-      if ((alquiler.copia().libro().codigoPrecio() == Libro.NUEVO_LANZAMIENTO)
-          && alquiler.diasAlquilados() > 1) {
-        puntosAlquilerFrecuente++;
-      }
-    }
-    resultado[0] = total;
-    resultado[1] = puntosAlquilerFrecuente;
-    return resultado;
-  }
+	class Alquileres {
+		private List<Alquiler> alquileres;
 
-  public void alquilar(Alquiler rental) {
-    alquileres.add(rental);
-  }
+		Alquileres() {
+			alquileres = new ArrayList<Alquiler>();
+		}
+
+		void añadir(Alquiler e) {
+			alquileres.add(e);
+		}
+
+		List<Alquiler> alquileres() {
+			return this.alquileres;
+		}
+	}
+
+	public double montoDeuda() {
+		double total = 0;
+		for (Alquiler a : alquileres.alquileres()) {
+			total += a.totalDeuda();
+		}
+		return total;
+
+	}
+
+	public int puntosObtenidos() {
+		int puntos = 0;
+		for (Alquiler a : alquileres.alquileres()) {
+			puntos += a.calcularPuntosAlquiler();
+		}
+		return puntos;
+	}
+
+	public void alquilar(Libro l, int diasAlquilados) {
+		Alquiler alquiler = new Alquiler(l, diasAlquilados);
+		this.alquileres.añadir(alquiler);
+	}
+
+	public String nombre() {
+		return this.name;
+	}
 }
