@@ -23,7 +23,7 @@ public class Recaudacion {
 	private static final String cantidadRecaudada = "raised_amount";
 	private static final String monedaRecaudada = "raised_currency";
 
-	public static List<String[]> leerArchivo() throws IOException {
+	public static List<String[]> leerArchivo() throws IOException { // Como sacar el parse
 		List<String[]> csvData = new ArrayList<String[]>();
 		CSVReader reader = new CSVReader(new FileReader(nombreArchivo));
 		String[] row = null;
@@ -33,7 +33,6 @@ public class Recaudacion {
 		}
 
 		reader.close();
-		// csvData.remove(0);
 
 		return csvData;
 	}
@@ -98,7 +97,7 @@ public class Recaudacion {
 		List<String[]> csvData = leerArchivo();
 		Map<String, String> mapped = new HashMap<String, String>();
 
-		for (int i = 0; i < csvData.size(); i++) {
+		for (int i = 0; i < csvData.size(); i++) { // Como factorizar estos if?
 			if (options.containsKey(nombreCompañia)) {
 				if (csvData.get(i)[1].equals(options.get(nombreCompañia))) {
 					mappearListaDeString(mapped, csvData, i);
