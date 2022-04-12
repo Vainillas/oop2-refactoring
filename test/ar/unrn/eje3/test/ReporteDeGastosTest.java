@@ -81,7 +81,7 @@ public class ReporteDeGastosTest {
 		// Ejercitación
 		List<String> listaInfo = reporte.informacionReporteDeGastos();
 
-		// Verificación
+		// Verificación | ¿Como hacer el test con String/StringBuffer?
 		assertEquals(7, listaInfo.size()); // 3 Strings fijos + X Strings (1 por gasto)
 	}
 
