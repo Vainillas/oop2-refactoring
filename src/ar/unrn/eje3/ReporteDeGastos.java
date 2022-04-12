@@ -1,51 +1,68 @@
 package ar.unrn.eje3;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-enum TipoDeGasto {
-  CENA, DESAYUNO, ALQUILER_AUTO
-}
-
-class Gasto {
-  TipoDeGasto tipoGasto;
-  int monto;
-}
-
 public class ReporteDeGastos {
-  public void imprimir(List<Gasto> gastos) {
-    int total = 0;
-    int gastosDeComida = 0;
+	private List<Gasto> gastos;
 
-    System.out.println("Expenses " + LocalDate.now());
+	public ReporteDeGastos(List<Gasto> gastos) {
+		this.gastos = gastos;
+	}
 
-    for (Gasto gasto : gastos) {
-      if (gasto.tipoGasto == TipoDeGasto.CENA || gasto.tipoGasto == TipoDeGasto.DESAYUNO) {
-        gastosDeComida += gasto.monto;
-      }
+	public int totalGastos() {
+		int total = 0;
+		for (Gasto gasto : gastos) {
+			total += gasto.monto();
+		}
+		return total;
+	}
 
-      String nombreGasto = "";
-      switch (gasto.tipoGasto) {
-      case CENA:
-        nombreGasto = "Cena";
-        break;
-      case DESAYUNO:
-        nombreGasto = "Desayuno";
-        break;
-      case ALQUILER_AUTO:
-        nombreGasto = "Alquiler de Autos";
-        break;
-      }
+	public int totalGastosDeComida() {
+		int gastosDeComida = 0;
+		for (Gasto gasto : gastos) {
+			gastosDeComida = gasto.sumaSiSosComida(gastosDeComida);
+		}
+		return gastosDeComida;
+	}
 
-      String marcaExcesoComidas = gasto.tipoGasto == TipoDeGasto.CENA && gasto.monto > 5000
-          || gasto.tipoGasto == TipoDeGasto.DESAYUNO && gasto.monto > 1000 ? "X" : " ";
+	public List<String> informacionReporteDeGastos() {
+		List<String> listaInfoGastos = new ArrayList<String>();
+		listaInfoGastos.add("Expenses " + LocalDate.now());
 
-      System.out.println(nombreGasto + "\t" + gasto.monto + "\t" + marcaExcesoComidas);
+		for (Gasto gasto : gastos) {
 
-      total += gasto.monto;
-    }
+			String nombreGasto = gasto.nombre();
+			String marcaExcesoComidas = gasto.hayExceso() ? "X" : " ";
+			String infoTotalGasto = (nombreGasto + "\t" + gasto.monto() + "\t" + marcaExcesoComidas);
+			listaInfoGastos.add(infoTotalGasto);
 
-    System.out.println("Gastos de comida: " + gastosDeComida);
-    System.out.println("Total de gastos: " + total);
-  }
+		}
+		listaInfoGastos.add("Gastos de comida: " + totalGastosDeComida());
+		listaInfoGastos.add("Total de gastos: " + totalGastos());
+		return listaInfoGastos;
+	}
+
+	public void imprimir() {
+		int total = 0;
+		int gastosDeComida = 0;
+
+		System.out.println("Expenses " + LocalDate.now());
+
+		for (Gasto gasto : gastos) {
+			gastosDeComida = gasto.sumaSiSosComida(gastosDeComida);
+
+			String nombreGasto = gasto.nombre();
+
+			String marcaExcesoComidas = gasto.hayExceso() ? "X" : " ";
+
+			System.out.println(nombreGasto + "\t" + gasto.monto() + "\t" + marcaExcesoComidas);
+
+			total += gasto.monto();
+		}
+
+		System.out.println("Gastos de comida: " + gastosDeComida);
+		System.out.println("Total de gastos: " + total);
+	}
 }
