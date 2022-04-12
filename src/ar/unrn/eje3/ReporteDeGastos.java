@@ -29,7 +29,7 @@ public class ReporteDeGastos {
 
 	public List<String> informacionReporteDeGastos() {
 		List<String> listaInfoGastos = new ArrayList<String>();
-		listaInfoGastos.add("Expenses " + LocalDate.now());
+		listaInfoGastos.add("Expenses " + LocalDate.now()); // Sacar LocalDate inyectar otro gestor de fecha
 
 		for (Gasto gasto : gastos) {
 
@@ -42,27 +42,5 @@ public class ReporteDeGastos {
 		listaInfoGastos.add("Gastos de comida: " + totalGastosDeComida());
 		listaInfoGastos.add("Total de gastos: " + totalGastos());
 		return listaInfoGastos;
-	}
-
-	public void imprimir() {
-		int total = 0;
-		int gastosDeComida = 0;
-
-		System.out.println("Expenses " + LocalDate.now());
-
-		for (Gasto gasto : gastos) {
-			gastosDeComida = gasto.sumaSiSosComida(gastosDeComida);
-
-			String nombreGasto = gasto.nombre();
-
-			String marcaExcesoComidas = gasto.hayExceso() ? "X" : " ";
-
-			System.out.println(nombreGasto + "\t" + gasto.monto() + "\t" + marcaExcesoComidas);
-
-			total += gasto.monto();
-		}
-
-		System.out.println("Gastos de comida: " + gastosDeComida);
-		System.out.println("Total de gastos: " + total);
 	}
 }

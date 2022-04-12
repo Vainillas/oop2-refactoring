@@ -12,7 +12,7 @@ public class GastoDesayuno extends Gasto {
 	}
 
 	public boolean hayExceso() {
-		return this.monto() > 5000;
+		return this.monto() > 1000;
 	}
 
 	public int sumaSiSosComida(int gastosDeComida) {

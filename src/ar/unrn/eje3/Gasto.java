@@ -3,7 +3,7 @@ package ar.unrn.eje3;
 public abstract class Gasto {
 	private int monto;
 
-	public Gasto(int monto) {
+	public Gasto(int monto) { // Cambiar el int (preguntar con que o como puedo modelar el precio)
 		this.monto = monto;
 	}
 
@@ -18,7 +18,7 @@ public abstract class Gasto {
 	}
 
 	public int sumaSiSosComida(int gastosDeComida) {
-		return 0;
+		return gastosDeComida;
 	}
 
 }
