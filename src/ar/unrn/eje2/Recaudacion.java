@@ -1,13 +1,10 @@
 package ar.unrn.eje2;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.opencsv.CSVReader;
 
 public class Recaudacion {
 	private static final String nombreArchivo = "data.csv";
@@ -22,25 +19,16 @@ public class Recaudacion {
 	private static final String fechaFundacion = "funded_date";
 	private static final String cantidadRecaudada = "raised_amount";
 	private static final String monedaRecaudada = "raised_currency";
+	public Datos datos;
 
-	public static List<String[]> leerArchivo() throws IOException { // Como sacar el parse
-		List<String[]> csvData = new ArrayList<String[]>();
-		CSVReader reader = new CSVReader(new FileReader(nombreArchivo));
-		String[] row = null;
-
-		while ((row = reader.readNext()) != null) {
-			csvData.add(row);
-		}
-
-		reader.close();
-
-		return csvData;
+	public Recaudacion(Datos datos) {
+		this.datos = datos;
 	}
 
 //Devuelve la/las filas que cumplan con las condiciones
-	public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
+	public List<Map<String, String>> where(Map<String, String> options) throws IOException {
 
-		List<String[]> csvData = leerArchivo();
+		List<String[]> csvData = datos.leer();
 
 		if (options.containsKey(nombreCompañia))
 			csvData = obtenerDatosPorLlave(csvData, options, 1);
@@ -76,10 +64,10 @@ public class Recaudacion {
 		map.put(round, csvData.get(indice)[9]);
 	}
 
-	public static List<String[]> obtenerDatosPorLlave(List<String[]> csvData, Map<String, String> options, int indice)
+	public List<String[]> obtenerDatosPorLlave(List<String[]> csvData, Map<String, String> options, int indice)
 			throws IOException {
 		List<String[]> results = new ArrayList<String[]>();
-		List<String[]> archivo = leerArchivo();
+		List<String[]> archivo = datos.leer();
 		String nombreLlave = archivo.get(0)[indice];
 
 		for (int i = 0; i < csvData.size(); i++) {
@@ -93,8 +81,8 @@ public class Recaudacion {
 	}
 
 //Devuelve la primera fila que cumpla con las condiciones
-	public static Map<String, String> findBy(Map<String, String> options) throws IOException, NoSuchEntryException {
-		List<String[]> csvData = leerArchivo();
+	public Map<String, String> findBy(Map<String, String> options) throws IOException, NoSuchEntryException {
+		List<String[]> csvData = datos.leer();
 		Map<String, String> mapped = new HashMap<String, String>();
 
 		for (int i = 0; i < csvData.size(); i++) { // Como factorizar estos if?
@@ -138,10 +126,12 @@ public class Recaudacion {
 
 	public static void main(String[] args) {
 		try {
+			Datos data = new CsvData();
+			Recaudacion r = new Recaudacion(data);
 			Map<String, String> options = new HashMap<String, String>();
 			options.put("company_name", "Facebook");
 			options.put("round", "a");
-			System.out.print(Recaudacion.where(options).size());
+			System.out.print(r.where(options).size());
 		} catch (IOException e) {
 			System.out.print(e.getMessage());
 			System.out.print("error");
