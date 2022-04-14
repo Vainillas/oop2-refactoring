@@ -1,46 +1,68 @@
 package ar.unrn.eje3;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReporteDeGastos {
-	private List<Gasto> gastos;
+	private Gastos listaGastos;
+	private ProveedorFecha manejadorFecha;
 
-	public ReporteDeGastos(List<Gasto> gastos) {
-		this.gastos = gastos;
+	public ReporteDeGastos(List<Gasto> gastos, ProveedorFecha fecha) {
+		listaGastos = new Gastos(gastos);
+		this.manejadorFecha = fecha;
+	}
+
+	class Gastos {
+		private List<Gasto> gastos;
+
+		Gastos(List<Gasto> gastos) {
+			this.gastos = gastos;
+		}
+
+		int totalGastos() {
+			int total = 0;
+			for (Gasto gasto : gastos) {
+				total += gasto.monto();
+			}
+			return total;
+		}
+
+		int totalGastosDeComida() {
+			int gastosDeComida = 0;
+			for (Gasto gasto : gastos) {
+				gastosDeComida = gasto.sumaSiSosComida(gastosDeComida);
+			}
+			return gastosDeComida;
+		}
+
+		StringBuffer informacionGastos() {
+			StringBuffer listaInfoGastos = new StringBuffer();
+			for (Gasto gasto : gastos) {
+
+				String nombreGasto = gasto.nombre();
+				String marcaExcesoComidas = gasto.hayExceso() ? "X" : " ";
+				String infoTotalGasto = (nombreGasto + "\t" + gasto.monto() + "\t" + marcaExcesoComidas);
+				listaInfoGastos.append(infoTotalGasto);
+			}
+			return listaInfoGastos;
+		}
 	}
 
 	public int totalGastos() {
-		int total = 0;
-		for (Gasto gasto : gastos) {
-			total += gasto.monto();
-		}
-		return total;
+		return listaGastos.totalGastos();
 	}
 
 	public int totalGastosDeComida() {
-		int gastosDeComida = 0;
-		for (Gasto gasto : gastos) {
-			gastosDeComida = gasto.sumaSiSosComida(gastosDeComida);
-		}
-		return gastosDeComida;
+		return listaGastos.totalGastosDeComida();
 	}
 
-	public List<String> informacionReporteDeGastos() {
-		List<String> listaInfoGastos = new ArrayList<String>();
-		listaInfoGastos.add("Expenses " + LocalDate.now()); // Sacar LocalDate inyectar otro gestor de fecha
+	public StringBuffer informacionReporteDeGastos() {
+		StringBuffer listaInfoGastos = new StringBuffer();
+		listaInfoGastos.append("Expenses " + manejadorFecha.generarFecha());
+		listaInfoGastos.append(listaGastos.informacionGastos());
 
-		for (Gasto gasto : gastos) {
-
-			String nombreGasto = gasto.nombre();
-			String marcaExcesoComidas = gasto.hayExceso() ? "X" : " ";
-			String infoTotalGasto = (nombreGasto + "\t" + gasto.monto() + "\t" + marcaExcesoComidas);
-			listaInfoGastos.add(infoTotalGasto);
-
-		}
-		listaInfoGastos.add("Gastos de comida: " + totalGastosDeComida());
-		listaInfoGastos.add("Total de gastos: " + totalGastos());
+		listaInfoGastos.append("Gastos de comida: " + totalGastosDeComida());
+		listaInfoGastos.append("Total de gastos: " + totalGastos());
 		return listaInfoGastos;
 	}
+
 }

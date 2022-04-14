@@ -7,13 +7,17 @@ import java.util.List;
 
 import org.junit.Test;
 
+import ar.unrn.eje3.DateManager;
 import ar.unrn.eje3.Gasto;
 import ar.unrn.eje3.GastoAlquilerAuto;
 import ar.unrn.eje3.GastoCena;
 import ar.unrn.eje3.GastoDesayuno;
+import ar.unrn.eje3.ProveedorFecha;
 import ar.unrn.eje3.ReporteDeGastos;
 
 public class ReporteDeGastosTest {
+	private ProveedorFecha proveedor = new DateManager();
+
 	@Test
 	public void TestReporteDeGastosComida() {
 
@@ -29,7 +33,7 @@ public class ReporteDeGastosTest {
 		listaGastos.add(gastoCena2);
 		listaGastos.add(gastoAlquilerAuto);
 
-		ReporteDeGastos reporte = new ReporteDeGastos(listaGastos);
+		ReporteDeGastos reporte = new ReporteDeGastos(listaGastos, proveedor);
 
 		// Ejercitación
 		int totalGastosComida = reporte.totalGastosDeComida();
@@ -53,7 +57,7 @@ public class ReporteDeGastosTest {
 		listaGastos.add(gastoCena2);
 		listaGastos.add(gastoAlquilerAuto);
 
-		ReporteDeGastos reporte = new ReporteDeGastos(listaGastos);
+		ReporteDeGastos reporte = new ReporteDeGastos(listaGastos, proveedor);
 
 		// Ejercitación
 		int totalGastos = reporte.totalGastos();
@@ -76,13 +80,16 @@ public class ReporteDeGastosTest {
 		listaGastos.add(gastoCena2);
 		listaGastos.add(gastoAlquilerAuto);
 
-		ReporteDeGastos reporte = new ReporteDeGastos(listaGastos);
+		ReporteDeGastos reporte = new ReporteDeGastos(listaGastos, proveedor);
 
 		// Ejercitación
-		List<String> listaInfo = reporte.informacionReporteDeGastos();
+		StringBuffer listaInfo = reporte.informacionReporteDeGastos();
 
 		// Verificación | ¿Como hacer el test con String/StringBuffer?
-		assertEquals(7, listaInfo.size()); // 3 Strings fijos + X Strings (1 por gasto)
+		System.out.println(listaInfo);// 3 Strings fijos + X Strings (1 por gasto)
+		assertEquals(
+				"Expenses 2022-03-27Desayuno	710	 Cena	7000	XCena	4000	 Alquiler de autos	15000	 Gastos de comida: 11710Total de gastos: 26710",
+				listaInfo.toString());
 	}
 
 }
