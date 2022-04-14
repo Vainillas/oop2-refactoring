@@ -35,15 +35,15 @@ public class ReporteDeGastos {
 		}
 
 		StringBuffer informacionGastos() {
-			StringBuffer listaInfoGastos = new StringBuffer();
+			StringBuffer infoGastos = new StringBuffer();
 			for (Gasto gasto : gastos) {
 
 				String nombreGasto = gasto.nombre();
 				String marcaExcesoComidas = gasto.hayExceso() ? "X" : " ";
 				String infoTotalGasto = (nombreGasto + "\t" + gasto.monto() + "\t" + marcaExcesoComidas);
-				listaInfoGastos.append(infoTotalGasto);
+				infoGastos.append(infoTotalGasto);
 			}
-			return listaInfoGastos;
+			return infoGastos;
 		}
 	}
 
@@ -56,13 +56,13 @@ public class ReporteDeGastos {
 	}
 
 	public StringBuffer informacionReporteDeGastos() {
-		StringBuffer listaInfoGastos = new StringBuffer();
-		listaInfoGastos.append("Expenses " + manejadorFecha.generarFecha());
-		listaInfoGastos.append(listaGastos.informacionGastos());
+		StringBuffer infoGastos = new StringBuffer();
+		infoGastos.append("Expenses " + manejadorFecha.generarFecha());
+		infoGastos.append(listaGastos.informacionGastos());
 
-		listaInfoGastos.append("Gastos de comida: " + totalGastosDeComida());
-		listaInfoGastos.append("Total de gastos: " + totalGastos());
-		return listaInfoGastos;
+		infoGastos.append("Gastos de comida: " + totalGastosDeComida());
+		infoGastos.append("Total de gastos: " + totalGastos());
+		return infoGastos;
 	}
 
 }
