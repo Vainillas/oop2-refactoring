@@ -64,17 +64,6 @@ public class Recaudacion {
 		}
 
 		return results;
-
-		/*
-		 * List<String[]> results = new ArrayList<String[]>(); List<String[]> archivo =
-		 * datos.leer(); String nombreLlave = archivo.get(0)[indice];
-		 * 
-		 * for (int i = 0; i < csvData.size(); i++) {
-		 * 
-		 * String datoArchivo = csvData.get(i)[indice]; String datoLlave =
-		 * options.get(nombreLlave); if (datoArchivo.equals(datoLlave)) // Identación
-		 * (¿Lo paso a método?) results.add(csvData.get(i)); } return results;
-		 */
 	}
 
 	public static void mappearListaDeString(Map<String, String> map, List<String[]> csvData, int indice) {
