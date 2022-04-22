@@ -26,6 +26,14 @@ public class Cliente { // Regla 7
 		List<Alquiler> alquileres() {
 			return this.alquileres;
 		}
+
+		int puntosAlquileres() {
+			int puntos = 0;
+			for (Alquiler a : this.alquileres()) {
+				puntos += a.calcularPuntosAlquiler();
+			}
+			return puntos;
+		}
 	}
 
 	public double montoDeuda() { // Separo los metodos
@@ -38,10 +46,7 @@ public class Cliente { // Regla 7
 	}
 
 	public int puntosObtenidos() { // Separo metodos
-		int puntos = 0;
-		for (Alquiler a : alquileres.alquileres()) {
-			puntos += a.calcularPuntosAlquiler();
-		}
+		int puntos = alquileres.puntosAlquileres();
 		return puntos;
 	}
 

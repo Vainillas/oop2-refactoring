@@ -31,15 +31,19 @@ public class Recaudacion {
 		List<String[]> csvData = datos.leer();
 
 		if (options.containsKey(nombreCompañia))
-			csvData = obtenerDatosPorLlave(csvData, options, 1);
+			csvData = obtenerDatosPorLlave(csvData, options,
+					(i, datos, map) -> datos.get(i)[1].equals(options.get(nombreCompañia)));
 		if (options.containsKey(ciudad))
-			csvData = obtenerDatosPorLlave(csvData, options, 4);
+			csvData = obtenerDatosPorLlave(csvData, options,
+					(i, datos, map) -> datos.get(i)[4].equals(options.get(ciudad)));
 
 		if (options.containsKey(estado))
-			csvData = obtenerDatosPorLlave(csvData, options, 5);
+			csvData = obtenerDatosPorLlave(csvData, options,
+					(i, datos, map) -> datos.get(i)[5].equals(options.get(estado)));
 
 		if (options.containsKey(round))
-			csvData = obtenerDatosPorLlave(csvData, options, 9);
+			csvData = obtenerDatosPorLlave(csvData, options,
+					(i, datos, map) -> datos.get(i)[9].equals(options.get(round)));
 
 		List<Map<String, String>> output = new ArrayList<Map<String, String>>();
 
@@ -49,6 +53,28 @@ public class Recaudacion {
 			output.add(mapped);
 		}
 		return output;
+	}
+
+	public List<String[]> obtenerDatosPorLlave(List<String[]> csvData, Map<String, String> options, Condicion c)
+			throws IOException {
+		List<String[]> results = new ArrayList<String[]>();
+		for (int i = 0; i < csvData.size(); i++) {
+			if (c.esIgual(i, csvData, options))
+				results.add(csvData.get(i));
+		}
+
+		return results;
+
+		/*
+		 * List<String[]> results = new ArrayList<String[]>(); List<String[]> archivo =
+		 * datos.leer(); String nombreLlave = archivo.get(0)[indice];
+		 * 
+		 * for (int i = 0; i < csvData.size(); i++) {
+		 * 
+		 * String datoArchivo = csvData.get(i)[indice]; String datoLlave =
+		 * options.get(nombreLlave); if (datoArchivo.equals(datoLlave)) // Identación
+		 * (¿Lo paso a método?) results.add(csvData.get(i)); } return results;
+		 */
 	}
 
 	public static void mappearListaDeString(Map<String, String> map, List<String[]> csvData, int indice) {
@@ -62,22 +88,6 @@ public class Recaudacion {
 		map.put(cantidadRecaudada, csvData.get(indice)[7]);
 		map.put(monedaRecaudada, csvData.get(indice)[8]);
 		map.put(round, csvData.get(indice)[9]);
-	}
-
-	public List<String[]> obtenerDatosPorLlave(List<String[]> csvData, Map<String, String> options, int indice)
-			throws IOException {
-		List<String[]> results = new ArrayList<String[]>();
-		List<String[]> archivo = datos.leer();
-		String nombreLlave = archivo.get(0)[indice];
-
-		for (int i = 0; i < csvData.size(); i++) {
-
-			String datoArchivo = csvData.get(i)[indice];
-			String datoLlave = options.get(nombreLlave);
-			if (datoArchivo.equals(datoLlave)) // Identación (¿Lo paso a método?)
-				results.add(csvData.get(i));
-		}
-		return results;
 	}
 
 //Devuelve la primera fila que cumpla con las condiciones
